@@ -1,9 +1,10 @@
-import logo from './logo.svg';
-import './App.css';
-import { Box, Button, Flex, Heading, IconButton, Link, Select, Text } from '@chakra-ui/react';
-import { SiGunicorn } from 'react-icons/si';
+import React from 'react';
+import { Box, Button, Flex, Heading, IconButton, Link, Select, CloseButton,Text } from '@chakra-ui/react';
+import { SiChatbot, SiGunicorn } from 'react-icons/si';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import ColumnChart from './components/ColumnChart';
+import Chat from './Chat';  
+import { useState } from 'react';
 import ProductTable from './components/ProductTable';
 import ProductList from './components/ProductList';
 import ListProducts from './components/ListProducts';
@@ -84,6 +85,19 @@ const data = [
 ];
 
 function App() {
+  const [showChat, setShowChat] = useState(false);
+  const [messages, setMessages] = useState([]);
+
+  const toggleChat = () => {
+    setShowChat(!showChat);
+  };
+
+  const sendMessage = (message) => {
+    // Placeholder function to simulate sending a message to backend
+    setMessages([...messages, { role: 'user', text: message }]);
+    // You can implement actual logic here to send message to backend
+  };
+
   return (
   <Box>
       <Box as="nav" bg="gray.800" color="white" p={4} position="fixed" top="0" width="100%" zIndex="1000">
@@ -161,6 +175,59 @@ function App() {
       <Box as="section" id="ListProducts" py={20}>
         <ListProducts/>
       </Box>
+      {/* Chat Plugin */}
+      <Box
+        position="fixed"
+        bottom="20px"
+        right="20px"
+        display={showChat ? 'block' : 'none'}
+        boxShadow="0 2px 5px rgba(0, 0, 0, 0.2)"
+        zIndex="1000"
+      >
+        <Box
+          bg="gray.400"
+          color="black"
+          p={4}
+          borderRadius="md"
+        >
+          <Flex justify="space-between" align="center">
+            <Heading size="sm" color="black">Chatbot</Heading>
+            <IconButton 
+              aria-label="Close"
+              icon= {<CloseButton/>}
+              color="black"
+              variant="ghost"
+              onClick={toggleChat}
+            />
+          </Flex>
+          {/* <Box mt={4} maxHeight="300px" overflowY="auto">
+            {messages.map((msg, index) => (
+              <Box key={index} textAlign={msg.role === 'user' ? 'right' : 'left'}>
+                <Text fontSize="sm" p={2} borderRadius="md" bg={msg.role === 'user' ? 'teal.500' : 'gray.200'} color={msg.role === 'user' ? 'white' : 'black'}>{msg.text}</Text>
+              </Box>
+            ))}
+          </Box> */}
+          <Flex mt={2}>
+            <Chat /> 
+          </Flex>
+        </Box>
+      </Box>
+
+      {/* Chat Plugin Button */}
+      <Box
+        position="fixed"
+        bottom="20px"
+        right="20px"
+        zIndex="1000"
+      >
+        <IconButton
+          aria-label="Open chat"
+          icon={<SiChatbot />}
+          colorScheme="teal"
+          onClick={toggleChat}
+        />
+      </Box>
+
 
       <Box as="footer" bg="gray.800" color="white" py={10}>
         <Box maxW="container.xl" mx="auto" textAlign="center">
