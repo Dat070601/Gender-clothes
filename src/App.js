@@ -1,11 +1,88 @@
 import React from 'react';
-import { Box, Button, Flex, Heading, IconButton, Link, CloseButton,Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Heading, IconButton, Link, Select, CloseButton,Text } from '@chakra-ui/react';
 import { SiChatbot, SiGunicorn } from 'react-icons/si';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import ColumnChart from './components/ColumnChart';
 import Chat from './Chat';  
 import { useState } from 'react';
-import myLogo from "./asset/chatbot.jpg"
+import ProductTable from './components/ProductTable';
+import ProductList from './components/ProductList';
+import ListProducts from './components/ListProducts';
+
+const data = [
+  {
+    "Product Type": "áo thun",
+    "Gender": "nam",
+    "Material": "unknown",
+    "Color": "xanh",
+    "Pattern": "họa tiết",
+    "Trend": "unknown",
+    "Rating": 5.0
+  },
+  {
+    "Product Type": "áo thun",
+    "Gender": "unisex",
+    "Material": "unknown",
+    "Color": "đen",
+    "Pattern": "trơn",
+    "Trend": "unknown",
+    "Rating": 5.0
+  },
+  {
+    "Product Type": "áo thun",
+    "Gender": "nữ",
+    "Material": "jeans",
+    "Color": "trắng",
+    "Pattern": "unknown",
+    "Trend": "unknown",
+    "Rating": 5.0
+  },
+  {
+    "Product Type": "áo thun",
+    "Gender": "unisex",
+    "Material": "da",
+    "Color": "nhiều màu",
+    "Pattern": "trơn",
+    "Trend": "unknown",
+    "Rating": 5.0
+  },
+  {
+    "Product Type": "áo thun",
+    "Gender": "unisex",
+    "Material": "cotton",
+    "Color": "cam",
+    "Pattern": "trơn",
+    "Trend": "mùa hè",
+    "Rating": 4.9
+  },
+  {
+    "Product Type": "áo thun",
+    "Gender": "unisex",
+    "Material": "cotton",
+    "Color": "xanh",
+    "Pattern": "trơn",
+    "Trend": "unknown",
+    "Rating": 4.9
+  },
+  {
+    "Product Type": "áo thun",
+    "Gender": "unisex",
+    "Material": "unknown",
+    "Color": "nhiều màu",
+    "Pattern": "trơn",
+    "Trend": "unknown",
+    "Rating": 4.9
+  },
+  {
+    "Product Type": "áo thun",
+    "Gender": "nam",
+    "Material": "unknown",
+    "Color": "cam",
+    "Pattern": "sọc",
+    "Trend": "unknown",
+    "Rating": 4.8
+  }
+];
 
 function App() {
   const [showChat, setShowChat] = useState(false);
@@ -22,8 +99,8 @@ function App() {
   };
 
   return (
-    <Box>
-      <Box as="nav" bg="gray.800" color="white" p={4}>
+  <Box>
+      <Box as="nav" bg="gray.800" color="white" p={4} position="fixed" top="0" width="100%" zIndex="1000">
         <Flex justify="space-between" align="center">
           <Link href="#home" fontSize="xl" fontWeight="bold">DecisionGenius</Link>
           <Box display={{ base: 'block', md: 'none' }} id="mobile-menu">
@@ -43,17 +120,12 @@ function App() {
             </Box>
             <Box as="li" mx={2}>
               <Link href="#Products">Products</Link>
+            </Box>            
+            <Box as="li" mx={2}>
+              <Link href="#ListProducts">List Products</Link>
             </Box>
             <Box as="li" mx={2}>
               <Button as="a" href="/signup.html" colorScheme="teal">Đăng nhập</Button>
-            </Box>
-            <Box as="li" mx={2}>
-              <IconButton
-                aria-label="Toggle dark mode"
-                icon={<SiGunicorn />}
-                variant="outline"
-                colorScheme="teal"
-              />
             </Box>
           </Flex>
         </Flex>
@@ -67,19 +139,24 @@ function App() {
 
       <Box as="section" id="Sales" py={20}>
         <Box maxW="container.xl" mx="auto">
-          <iframe
-            src="https://datavis-demoapp.herokuapp.com/public/dashboard/835960ba-0914-4fe6-8f6e-dbec70ec3227"
-            frameBorder="0"
-            width="100%"
-            height="800"
-            allowTransparency
-          ></iframe>
+          <ProductList/>
         </Box>
       </Box>
 
-      <Box as="section" id="Shipping" py={20}>
+      <Box as="section" id="Shipping" py={20} backgroundColor={"black.100"}>
         <Box maxW="container.xl" mx="auto">
-          <ColumnChart />
+          <Select placeholder='Select option' w={150} mb={30}>
+            <option value="giay">Giay</option>
+            <option value="dep">Dep</option>
+          </Select>
+          <Box display="flex" justifyContent="space-between" alignItems="center" gap={5}>
+            <Box flex={1}>
+              <ColumnChart />
+            </Box>
+            <Box flex={1}>
+              <ProductTable data={data} />
+            </Box>
+          </Box>
         </Box>
       </Box>
 
@@ -93,6 +170,10 @@ function App() {
             allowTransparency
           ></iframe>
         </Box>
+      </Box>
+
+      <Box as="section" id="ListProducts" py={20}>
+        <ListProducts/>
       </Box>
       {/* Chat Plugin */}
       <Box
