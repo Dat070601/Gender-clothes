@@ -21,7 +21,7 @@ function App() {
   return (
     <Router>
       <Box>
-        <Box as="nav" bg="gray.800" color="white" p={4} position="fixed" top="0" width="100%" zIndex="1000">
+        <Box as="nav" bg="gray.800" color="white" p={7} position="fixed" top="0" width="100%" zIndex="1000">
           <Flex justify="space-between" align="center">
             <Link as={RouterLink} to="/" fontSize="xl" fontWeight="bold">DecisionGenius</Link>
             <Box display={{ base: 'block', md: 'none' }} id="mobile-menu">
@@ -108,7 +108,7 @@ function App() {
           />
         </Box>
 
-        <Box as="footer" bg="gray.800" color="white" py={10} position="fixed" bottom={0} w={"100%"}>
+        <Box as="footer" bg="gray.800" color="white" py={0} position="fixed" bottom={0} w={"100%"}>
           <Box maxW="container.xl" mx="auto" textAlign="center">
             <Box mb={4}>
               <Text>Tiến Chung</Text>

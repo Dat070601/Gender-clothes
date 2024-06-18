@@ -8,6 +8,7 @@ import {
   Flex,
   Select,
   Text,
+  VStack,
 } from '@chakra-ui/react';
 import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
 
@@ -18,7 +19,7 @@ const ListProducts = () => {
   const [totalProducts, setTotalProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const itemsPerPage = 50;
+  const itemsPerPage = 20;
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -90,8 +91,7 @@ const ListProducts = () => {
     }
   };
 
-  const handleCategoryChange = (event) => {
-    const categoryId = event.target.value;
+  const handleCategoryChange = (categoryId) => {
     setSelectedCategory(categoryId);
     setCurrentPage(1);
     fetchTotalProducts(categoryId);
@@ -122,101 +122,110 @@ const ListProducts = () => {
   };
 
   return (
-    <Box maxW="container.xl" mx="auto" p={5}>
-      <Select value={selectedCategory} onChange={handleCategoryChange} mb={5}>
+    <Flex maxW="container.xl" mx="auto" p={5} ml={20}>
+      <VStack align="flex-start" w="200px" p={5}  borderWidth="1px" borderRadius="lg" bg="white">
         {categories.map((category) => (
-          <option key={category.Category_Id} value={category.Category_Id}>
+          <Button
+            key={category.Category_Id}
+            variant={selectedCategory === category.Category_Id ? 'solid' : 'ghost'}
+            colorScheme={selectedCategory === category.Category_Id ? 'teal' : 'gray'}
+            onClick={() => handleCategoryChange(category.Category_Id)}
+            w="100%"
+            textAlign="left"
+          >
             {category.Name}
-          </option>
+          </Button>
         ))}
-      </Select>
-      {Array.isArray(products) && products.length > 0 ? (
-        <>
-          <SimpleGrid columns={[1, 2, 3]} spacing="40px">
-            {products.map((product) => (
-              <Box key={product.Product_ID} borderWidth="1px" borderRadius="lg" overflow="hidden" bg="white">
-                <Image src={product.Image} alt={product.Name} />
+      </VStack>
+      <Box flex="1" p={5} ml={10}>
+        {Array.isArray(products) && products.length > 0 ? (
+          <>
+            <SimpleGrid columns={[1, 2, 3, 4, 5]} spacing="10px">
+              {products.map((product) => (
+                <Box key={product.Product_ID} borderWidth="1px" borderRadius="lg" overflow="hidden" bg="white">
+                  <Image src={product.Image} alt={product.Name} boxSize="200px" objectFit="cover" />
 
-                <Box p="6">
-                  <Box d="flex" alignItems="baseline">
-                    <Badge borderRadius="full" px="2" colorScheme="teal">
-                      {product.Brand}
-                    </Badge>
-                    <Box
-                      color="gray.500"
-                      fontWeight="semibold"
-                      letterSpacing="wide"
-                      fontSize="xs"
-                      textTransform="uppercase"
-                      ml="2"
+                  <Box p="6">
+                    <Box d="flex" alignItems="baseline">
+                      <Badge borderRadius="full" px="2" colorScheme="teal">
+                        {product.Brand}
+                      </Badge>
+                      <Box
+                        color="gray.500"
+                        fontWeight="semibold"
+                        letterSpacing="wide"
+                        fontSize="xs"
+                        textTransform="uppercase"
+                        ml="2"
+                      >
+                        {product.Category}
+                      </Box>
+                    </Box>
+
+                    <Box mt="1" fontWeight="semibold" as="h4" lineHeight="tight" isTruncated>
+                      {product.Name}
+                    </Box>
+
+                    <Box>
+                      {product.Price}
+                      <Box as="span" color="gray.600" fontSize="sm">
+                        / {product.Discount_rate} off
+                      </Box>
+                    </Box>
+
+                    <Box display="flex" mt={2} alignItems="center">
+                      {renderStars(product.Rating)}
+                      <Box as="span" ml={2} color="gray.600" fontSize="sm">
+                        {product.Rating} stars
+                      </Box>
+                    </Box>
+
+                    <Box d="flex" mt="2" alignItems="center">
+                      <Box as="span" ml="2" color="gray.600" fontSize="sm">
+                        Đã bán: {product.Sales} sản phẩm
+                      </Box>
+                    </Box>
+
+                    <Button
+                      mt={4}
+                      colorScheme="teal"
+                      onClick={() => window.location.href = product.Link}
                     >
-                      {product.Category}
-                    </Box>
+                      Xem chi tiết
+                    </Button>
                   </Box>
-
-                  <Box mt="1" fontWeight="semibold" as="h4" lineHeight="tight" isTruncated>
-                    {product.Name}
-                  </Box>
-
-                  <Box>
-                    {product.Price}
-                    <Box as="span" color="gray.600" fontSize="sm">
-                      / {product.Discount_rate} off
-                    </Box>
-                  </Box>
-
-                  <Box display="flex" mt={2} alignItems="center">
-                    {renderStars(product.Rating)}
-                    <Box as="span" ml={2} color="gray.600" fontSize="sm">
-                      {product.Rating} stars
-                    </Box>
-                  </Box>
-
-                  <Box d="flex" mt="2" alignItems="center">
-                    <Box as="span" ml="2" color="gray.600" fontSize="sm">
-                      Đã bán: {product.Sales} sản phẩm
-                    </Box>
-                  </Box>
-
-                  <Button
-                    mt={4}
-                    colorScheme="teal"
-                    onClick={() => window.location.href = product.Link}
-                  >
-                    Xem chi tiết
-                  </Button>
                 </Box>
-              </Box>
-            ))}
-          </SimpleGrid>
-          <Flex justifyContent="center" mt={5} alignItems="center">
-            <Button
-              onClick={() => handlePageChange(currentPage - 1)}
-              isDisabled={currentPage === 1}
-              mr={2}
-            >
-              Previous
-            </Button>
-            <Select value={currentPage} onChange={(e) => handlePageChange(Number(e.target.value))} mx={2} w={20}>
-              {Array.from({ length: totalPages }, (_, i) => (
-                <option key={i + 1} value={i + 1}>
-                  {i + 1}
-                </option>
               ))}
-            </Select>
-            <Button
-              onClick={() => handlePageChange(currentPage + 1)}
-              isDisabled={currentPage === totalPages}
-              ml={2}
-            >
-              Next
-            </Button>
-          </Flex>
-        </>
-      ) : (
-        <Box>No products found.</Box>
-      )}
-    </Box>
+            </SimpleGrid>
+            <Flex justifyContent="center" mt={5} alignItems="center">
+              <Button
+                onClick={() => handlePageChange(currentPage - 1)}
+                isDisabled={currentPage === 1}
+                mr={2}
+              >
+                Previous
+              </Button>
+              <Select value={currentPage} onChange={(e) => handlePageChange(Number(e.target.value))} mx={2} w={20}>
+                {Array.from({ length: totalPages }, (_, i) => (
+                  <option key={i + 1} value={i + 1}>
+                    {i + 1}
+                  </option>
+                ))}
+              </Select>
+              <Button
+                onClick={() => handlePageChange(currentPage + 1)}
+                isDisabled={currentPage === totalPages}
+                ml={2}
+              >
+                Next
+              </Button>
+            </Flex>
+          </>
+        ) : (
+          <Box>Không tìm thấy sản phẩm nào.</Box>
+        )}
+      </Box>
+    </Flex>
   );
 };
 
