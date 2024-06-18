@@ -1,11 +1,11 @@
 import React from 'react';
 import { Box } from '@chakra-ui/react';
-import ProductList from './ProductList';
+import SmallMenu from './ListTopRatingByCategory';
 
 const TopRating = () => (
   <Box as="section" id="Sales" py={20}>
     <Box maxW="container.xl" mx="auto">
-      <ProductList />
+      <SmallMenu />
     </Box>
   </Box>
 );
