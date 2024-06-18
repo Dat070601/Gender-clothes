@@ -3,11 +3,11 @@ import { Box, Button, Flex, Heading, IconButton, Link, Select, CloseButton,Text 
 import { SiChatbot, SiGunicorn } from 'react-icons/si';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import ColumnChart from './components/ColumnChart';
-import Chat from './Chat';  
+import Chat from './components/Chat';  
 import { useState } from 'react';
 import ProductTable from './components/ProductTable';
 import ProductList from './components/ProductList';
-import ListProducts from './components/ListProducts';
+import ListProducts from './components/ListAllProductsByCategory';
 
 const data = [
   {
@@ -113,16 +113,16 @@ function App() {
               <Link href="#home">Trang chủ</Link>
             </Box>
             <Box as="li" mx={2}>
-              <Link href="#Sales">Sales</Link>
+              <Link href="#Sales">Top Rating</Link>
             </Box>
             <Box as="li" mx={2}>
-              <Link href="#Shipping">Regional Analysis</Link>
+              <Link href="#Shipping">Thống kê</Link>
             </Box>
             <Box as="li" mx={2}>
-              <Link href="#Products">Products</Link>
+              <Link href="#Products">Hỗ trợ quyết định</Link>
             </Box>            
             <Box as="li" mx={2}>
-              <Link href="#ListProducts">List Products</Link>
+              <Link href="#ListProducts">Sản phẩm</Link>
             </Box>
             <Box as="li" mx={2}>
               <Button as="a" href="/signup.html" colorScheme="teal">Đăng nhập</Button>
