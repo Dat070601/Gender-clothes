@@ -10,6 +10,7 @@ import DecisionSupport from './components/DecisionSupport';
 import ProductListPage from './components/ProductListPage';
 import Chat from './components/Chat';
 import { useState } from 'react';
+import LoginForm from './components/LoginForm';
 
 function App() {
   const [showChat, setShowChat] = useState(false);
@@ -46,7 +47,7 @@ function App() {
                 <Link as={RouterLink} to="/product-list">Sản phẩm</Link>
               </Box>
               <Box as="li" mx={2}>
-                <Button as="a" href="/signup.html" colorScheme="teal">Đăng nhập</Button>
+                <Button as={RouterLink} to="/login" colorScheme="teal">Đăng nhập</Button>
               </Box>
             </Flex>
           </Flex>
@@ -59,6 +60,7 @@ function App() {
             <Route path="/statistics" element={<Statistics />} />
             <Route path="/decision-support" element={<DecisionSupport />} />
             <Route path="/product-list" element={<ProductListPage />} />
+            <Route path="/login" element={<LoginForm />} />
           </Routes>
         </Box>
 
