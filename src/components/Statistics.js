@@ -1,13 +1,15 @@
-import { Box, Flex, Select, Text } from '@chakra-ui/react';
+import { Box, Flex, Select, Text, Textarea } from '@chakra-ui/react';
 import ColumnChart from './ColumnChart';
 import ProductTable from './ProductTable';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { URL } from '../constant';
 import { CalendarIcon, StarIcon } from '@chakra-ui/icons';
 
 const Statistics = () => {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [textareaValue, setTextareaValue] = useState("Tiếp tục tập trung vào các chất liệu như len, denim, linen và cotton.\nMở rộng bảng màu với các gam màu tươi sáng và trung tính.\nĐa dạng hóa thiết kế với các sản phẩm có họa tiết và trơn.\nTiếp tục phát triển các sản phẩm unisex để mở rộng đối tượng khách hàng");
+  const textareaRef = useRef(null);
 
   // Fetch categories on component mount
   useEffect(() => {
@@ -37,6 +39,13 @@ const Statistics = () => {
     setSelectedCategory(event.target.value);
   };
 
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto';
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    }
+  }, [textareaValue]);
+
   return (
     <Box as="section" id="Shipping" py={20}>
       <Flex justifyContent="center" alignItems="center" height="60px" gap={5} mb={3}>
@@ -44,7 +53,7 @@ const Statistics = () => {
         <CalendarIcon w={10} h={10} color="blue.500" />
       </Flex>
       <Box maxW="80%" mx="auto">
-        <Flex justifyContent="center" mb={30}>
+        <Flex justifyContent="center" mb={5}>
           <Select value={selectedCategory} w={150} onChange={handleCategoryChange}>
             {categories.map((category) => (
               <option key={category.Category_Id} value={category.Category_Id}>
@@ -53,7 +62,7 @@ const Statistics = () => {
             ))}
           </Select>
         </Flex>
-        <Box display="flex" justifyContent="space-between" alignItems="center" gap={10}>
+        <Box display="flex" justifyContent="space-between" alignItems="center" gap={10} mb={10}>
           <Box flex={1}>
             <ColumnChart categoryId={selectedCategory} />
           </Box>
@@ -61,6 +70,27 @@ const Statistics = () => {
             <ProductTable categoryId={selectedCategory} />
           </Box>
         </Box>
+        <Flex direction="column" justifyContent="center" alignItems="center">
+          <Text fontSize={30} fontWeight={"bold"} mb={4}>Gợi ý xu hướng thời trang tiếp theo:</Text>
+          <Textarea
+            ref={textareaRef}
+            placeholder='Here is a sample placeholder'
+            size='lg'
+            isDisabled
+            value={textareaValue}
+            borderColor={"red.500"}
+            onChange={(e) => setTextareaValue(e.target.value)}
+            sx={{
+              fontWeight: 'bold', 
+              color: 'black',
+              overflow: 'hidden', // Ẩn thanh cuộn
+              '::-webkit-scrollbar': {
+                display: 'none', // Ẩn thanh cuộn cho trình duyệt Webkit (Chrome, Safari)
+              },
+            }}
+            maxW={"50%"}
+          />
+        </Flex>
       </Box>
     </Box>
   );
