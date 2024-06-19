@@ -41,7 +41,7 @@ const LoginForm = () => {
           </Button>
         </form>
         <Text mt={4} textAlign="center">
-          Chưa có tài khoản? <Link color="teal.500" href="/signup">Đăng ký</Link>
+        Chưa có tài khoản? <Link to="/signup" style={{ color: 'teal' }}>Đăng ký</Link>
         </Text>
       </Box>
     </Flex>

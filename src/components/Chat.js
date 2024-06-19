@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Box, Button, Textarea, Flex, Text, Spinner } from '@chakra-ui/react';
+import { URL } from '../constant';
 
 const Chat = () => {
   const [messages, setMessages] = useState([
@@ -18,7 +19,7 @@ const Chat = () => {
       scrollToBottom();
 
       try {
-        const response = await fetch('http://localhost:8000/chatbot/chatbot', {
+        const response = await fetch(`${URL}/chatbot/chatbot`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

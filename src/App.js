@@ -11,6 +11,7 @@ import ProductListPage from './components/ProductListPage';
 import Chat from './components/Chat';
 import { useState } from 'react';
 import LoginForm from './components/LoginForm';
+import SignupForm from './components/SignupForm';
 
 function App() {
   const [showChat, setShowChat] = useState(false);
@@ -61,6 +62,7 @@ function App() {
             <Route path="/decision-support" element={<DecisionSupport />} />
             <Route path="/product-list" element={<ProductListPage />} />
             <Route path="/login" element={<LoginForm />} />
+            <Route path="/signup" element={<SignupForm />} />
           </Routes>
         </Box>
 

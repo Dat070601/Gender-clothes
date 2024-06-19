@@ -11,6 +11,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
+import { URL } from '../constant';
 
 const ListProducts = () => {
   const [categories, setCategories] = useState([]);
@@ -24,7 +25,8 @@ const ListProducts = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch('http://localhost:8000/category/getList', {
+        const response = await fetch(
+          `${URL}/category/getList`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -48,7 +50,7 @@ const ListProducts = () => {
   const fetchTotalProducts = async (categoryId) => {
     try {
       const response = await fetch(
-        'http://localhost:8000/product/getTotalByCategory',
+        `${URL}/product/getTotalByCategory`,
         {
           method: 'POST',
           headers: {
@@ -70,7 +72,7 @@ const ListProducts = () => {
   const fetchProducts = async (categoryId, page) => {
     try {
       const response = await fetch(
-        'http://localhost:8000/product/getAllByCategory',
+        `${URL}/product/getAllByCategory`,
         {
           method: 'POST',
           headers: {

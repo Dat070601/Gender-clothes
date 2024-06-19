@@ -1,6 +1,7 @@
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import React, { useEffect, useState } from 'react';
+import { URL } from '../constant';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -8,7 +9,7 @@ const ColumnChart = ({ categoryId }) => {
   const [chartData, setChartData] = useState(null);
   const fetchProducts = async (categoryId) => {
     try {
-      const response = await fetch('http://localhost:8000/product/getListByCategory', {
+      const response = await fetch(`${URL}/product/getListByCategory`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -67,9 +68,11 @@ const ColumnChart = ({ categoryId }) => {
   return (
     <div style={{ width: '100%', height: '500px', overflowX: 'auto' }}>
       {chartData ? (
+      <div style={{ width: '500px', height: '100%' }}>
         <div style={{ width: `${chartData.labels.length * 50}px`, height: '100%' }}>
           <Bar data={chartData} options={options} />
         </div>
+      </div>
       ) : (
         <p>Loading chart...</p> 
       )}

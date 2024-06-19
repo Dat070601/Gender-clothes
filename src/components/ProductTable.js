@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Thead, Tbody, Tr, Th, Td, Box } from '@chakra-ui/react';
+import { URL } from '../constant';
 
 const ProductTable = ({ categoryId }) => {
   const [features, setFeatures] = useState([]);
@@ -7,7 +8,7 @@ const ProductTable = ({ categoryId }) => {
   const fetchFeatures = async (categoryId) => {
     try {
       const response = await fetch(
-        'http://localhost:8000/product/getTopFeature',
+        `${URL}/product/getTopFeature`,
         {
           method: 'POST',
           headers: {

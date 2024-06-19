@@ -1,7 +1,9 @@
-import { Box, Select } from '@chakra-ui/react';
+import { Box, Flex, Select, Text } from '@chakra-ui/react';
 import ColumnChart from './ColumnChart';
 import ProductTable from './ProductTable';
 import React, { useEffect, useState } from 'react';
+import { URL } from '../constant';
+import { CalendarIcon, StarIcon } from '@chakra-ui/icons';
 
 const Statistics = () => {
   const [categories, setCategories] = useState([]);
@@ -11,7 +13,7 @@ const Statistics = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch('http://localhost:8000/category/getList', {
+        const response = await fetch(`${URL}/category/getList`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -36,16 +38,22 @@ const Statistics = () => {
   };
 
   return (
-    <Box as="section" id="Shipping" py={20} backgroundColor="black.100">
-      <Box maxW="container.xl" mx="auto">
-        <Select value={selectedCategory} w={150} mb={30} onChange={handleCategoryChange}>
-          {categories.map((category) => (
-            <option key={category.Category_Id} value={category.Category_Id}>
-              {category.Name}
-            </option>
-          ))}
-        </Select>
-        <Box display="flex" justifyContent="space-between" alignItems="center" gap={5}>
+    <Box as="section" id="Shipping" py={20}>
+      <Flex justifyContent="center" alignItems="center" height="60px" gap={5} mb={3}>
+        <Text fontSize={40} fontWeight={"bold"} color={"teal"}>Thống kê</Text>
+        <CalendarIcon w={10} h={10} color="blue.500" />
+      </Flex>
+      <Box maxW="80%" mx="auto">
+        <Flex justifyContent="center" mb={30}>
+          <Select value={selectedCategory} w={150} onChange={handleCategoryChange}>
+            {categories.map((category) => (
+              <option key={category.Category_Id} value={category.Category_Id}>
+                {category.Name}
+              </option>
+            ))}
+          </Select>
+        </Flex>
+        <Box display="flex" justifyContent="space-between" alignItems="center" gap={10}>
           <Box flex={1}>
             <ColumnChart categoryId={selectedCategory} />
           </Box>

@@ -1,8 +1,10 @@
-import { Box, Button, Image, Flex, Text, Badge, VStack } from '@chakra-ui/react';
+import { Box, Button, Image, Flex, Text, Badge, VStack, Select } from '@chakra-ui/react';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 import React, { useEffect, useState } from 'react';
+import { URL } from '../constant';
+import { StarIcon } from '@chakra-ui/icons';
 
 const SmallMenu = () => {
   const [categories, setCategories] = useState([]);
@@ -12,7 +14,7 @@ const SmallMenu = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch('http://localhost:8000/category/getList', {
+        const response = await fetch(`${URL}/category/getList`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -36,7 +38,7 @@ const SmallMenu = () => {
   const fetchTopRatings = async (categoryId) => {
     try {
       const response = await fetch(
-        'http://localhost:8000/product/getTopRating',
+        `${URL}/product/getTopRating`,
         {
           method: 'POST',
           headers: {
@@ -55,28 +57,28 @@ const SmallMenu = () => {
     }
   };
 
-  const handleCategoryChange = (categoryId) => {
+  const handleCategoryChange = (event) => {
+    const categoryId = event.target.value;
     setSelectedCategory(categoryId);
     fetchTopRatings(categoryId);
   };
 
   return (
-    <Flex maxW="container.xl" mx="auto" p={5}>
-      <VStack align="flex-start" w="200px" p={5} borderWidth="1px" borderRadius="lg" bg="white">
-        {categories.map((category) => (
-          <Button
-            key={category.Category_Id}
-            variant={selectedCategory === category.Category_Id ? 'solid' : 'ghost'}
-            colorScheme={selectedCategory === category.Category_Id ? 'teal' : 'gray'}
-            onClick={() => handleCategoryChange(category.Category_Id)}
-            w="100%"
-            textAlign="left"
-          >
-            {category.Name}
-          </Button>
-        ))}
-      </VStack>
-      <Box flex="1" mx="auto" mt="4">
+    <Flex direction="column" align="center" justify="center" height="100vh" maxW="container.xl" mx="auto" p={5}>
+      <Flex justifyContent="center" alignItems="center" height="60px" gap={5} mb={5}>
+        <Text fontSize={40} fontWeight={"bold"} color={"teal"}>Top Rating</Text>
+        <StarIcon w={10} h={10} color="yellow.500" />
+      </Flex>
+      <Box w="200px" mb={5}>
+        <Select value={selectedCategory} onChange={handleCategoryChange}>
+          {categories.map((category) => (
+            <option key={category.Category_Id} value={category.Category_Id}>
+              {category.Name}
+            </option>
+          ))}
+        </Select>
+      </Box>
+      <Box flex="1" w="full">
         <Carousel>
           {products.map((product) => (
             <VStack key={product.Id} spacing="24px" alignItems={'center'} justifyContent={'center'}>
@@ -116,8 +118,8 @@ const Carousel = ({ children }) => {
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 4,
+    slidesToShow: 5,
+    slidesToScroll: 5,
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />
   };
