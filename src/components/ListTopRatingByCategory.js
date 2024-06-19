@@ -12,7 +12,7 @@ const SmallMenu = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch('https://1c23-118-69-62-49.ngrok-free.app/category/getList', {
+        const response = await fetch('http://localhost:8000/category/getList', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ const SmallMenu = () => {
   const fetchTopRatings = async (categoryId) => {
     try {
       const response = await fetch(
-        'https://1c23-118-69-62-49.ngrok-free.app/product/getTopRating',
+        'http://localhost:8000/product/getTopRating',
         {
           method: 'POST',
           headers: {

@@ -24,7 +24,7 @@ const ListProducts = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch('https://1c23-118-69-62-49.ngrok-free.app/category/getList', {
+        const response = await fetch('http://localhost:8000/category/getList', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -48,7 +48,7 @@ const ListProducts = () => {
   const fetchTotalProducts = async (categoryId) => {
     try {
       const response = await fetch(
-        'https://1c23-118-69-62-49.ngrok-free.app/product/getTotalByCategory',
+        'http://localhost:8000/product/getTotalByCategory',
         {
           method: 'POST',
           headers: {
@@ -70,7 +70,7 @@ const ListProducts = () => {
   const fetchProducts = async (categoryId, page) => {
     try {
       const response = await fetch(
-        'https://1c23-118-69-62-49.ngrok-free.app/product/getAllByCategory',
+        'http://localhost:8000/product/getAllByCategory',
         {
           method: 'POST',
           headers: {
