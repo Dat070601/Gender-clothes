@@ -64,7 +64,7 @@ const SmallMenu = () => {
   };
 
   return (
-    <Flex direction="column" align="center" justify="center" height="100vh" maxW="container.xl" mx="auto" p={5}>
+    <Flex direction="column" align="center" justify="center" height="50hv" maxW="container.xl" mx="auto" p={5}>
       <Flex justifyContent="center" alignItems="center" height="60px" gap={5} mb={5}>
         <Text fontSize={40} fontWeight={"bold"} color={"teal"}>Top Rating</Text>
         <StarIcon w={10} h={10} color="yellow.500" />
@@ -135,7 +135,7 @@ const Carousel = ({ children }) => {
 
 const ProductCard = ({ product }) => {
   return (
-    <Box borderWidth="1px" borderRadius="lg" overflow="hidden" p="5" width="250px" height="400px">
+    <Box borderWidth="1px" borderRadius="lg" overflow="hidden" p="5" width="300px" height="500px">
       <Image 
         src={product.Image_Link}
         alt={product.Name} 
@@ -167,6 +167,9 @@ const ProductCard = ({ product }) => {
             Đã bán: {product.Sales} sản phẩm
           </Text>
         </Box>
+        <Button mt={4} colorScheme="teal" onClick={() => window.location.href = product.Link}>
+          Xem chi tiết
+        </Button>
       </Box>
     </Box>
   );

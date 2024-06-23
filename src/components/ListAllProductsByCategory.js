@@ -63,8 +63,8 @@ const ListProducts = () => {
         }
       );
       const data = await response.json();
-      setTotalProducts(data);
-      const totalPages = Math.ceil(totalProducts / itemsPerPage);
+      setTotalProducts(data); // Assuming this sets the total number of products
+      const totalPages = Math.ceil(data / itemsPerPage); // Calculate totalPages from data
       setTotalPages(totalPages);
     } catch (error) {
       console.error('Error fetching total products:', error);

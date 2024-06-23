@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState ,useContext } from 'react';
 import { Box, Button, Flex, FormControl, FormLabel, Input, Heading, Text } from '@chakra-ui/react';
 import { Link ,useNavigate} from 'react-router-dom';
+import { AuthContext } from '../components/AuthContext';
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const { login } = useContext(AuthContext);
+
   const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -29,6 +33,7 @@ const LoginForm = () => {
       if (data.detail_code === 400) {
         throw new Error(data['message']);
       }
+      login(data.token);
       navigate('/');
       
       console.log('Success:', data);

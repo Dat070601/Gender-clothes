@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Box, Button, Flex, Heading, IconButton, Link, Text } from '@chakra-ui/react';
+import React, { useContext, useState } from 'react';
+import { Box, Button, Flex, Heading, IconButton, Link, Menu, MenuButton, MenuItem, MenuList, Text } from '@chakra-ui/react';
 import { SiChatbot } from 'react-icons/si';
 import { FaGithub, FaLinkedin, FaUserCircle } from 'react-icons/fa';
 import { BrowserRouter as Router, Route, Routes, Link as RouterLink } from 'react-router-dom';
@@ -11,21 +11,16 @@ import ProductListPage from './components/ProductListPage';
 import Chat from './components/Chat';
 import LoginForm from './components/LoginForm';
 import SignupForm from './components/SignupForm';
+import Profile from './components/Profile';
+import PrivateRoute from './components/PrivateRoute';
+import { AuthContext } from './components/AuthContext';
 
 function App() {
+  const { isLoggedIn, logout } = useContext(AuthContext);
   const [showChat, setShowChat] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Authentication state
 
   const toggleChat = () => {
     setShowChat(!showChat);
-  };
-
-  const handleLogin = () => {
-    setIsLoggedIn(true); // Simulate logging in
-  };
-
-  const handleLogout = () => {
-    setIsLoggedIn(false); // Simulate logging out
   };
 
   return (
@@ -54,15 +49,21 @@ function App() {
               </Box>
               <Box as="li" mx={2}>
                 {isLoggedIn ? (
-                  <IconButton
-                    aria-label="Profile"
-                    icon={<FaUserCircle />}
-                    variant="ghost"
-                    color="white"
-                    onClick={handleLogout} 
-                  />
+                  <Menu>
+                    <MenuButton
+                      as={IconButton}
+                      aria-label="Profile"
+                      icon={<FaUserCircle />}
+                      variant="ghost"
+                      color="white"
+                    />
+                    <MenuList>
+                      <MenuItem as={RouterLink} to="/profile">Profile</MenuItem>
+                      <MenuItem onClick={logout}>Logout</MenuItem>
+                    </MenuList>
+                  </Menu>
                 ) : (
-                  <Button as={RouterLink} to="/login" colorScheme="teal" onClick={handleLogin}>Đăng nhập</Button>
+                  <Button as={RouterLink} to="/login" colorScheme="teal">Đăng nhập</Button>
                 )}
               </Box>
             </Flex>
@@ -73,11 +74,12 @@ function App() {
           <Routes>
             <Route exact path="/" element={<Home />} />
             <Route path="/top-rating" element={<TopRating />} />
-            <Route path="/statistics" element={<Statistics />} />
+            <Route path="/statistics" element={<PrivateRoute element={<Statistics />} />} />
             <Route path="/decision-support" element={<DecisionSupport />} />
             <Route path="/product-list" element={<ProductListPage />} />
             <Route path="/login" element={<LoginForm />} />
             <Route path="/signup" element={<SignupForm />} />
+            <Route path="/profile" element={<PrivateRoute element={<Profile/>} />} />
           </Routes>
         </Box>
 
