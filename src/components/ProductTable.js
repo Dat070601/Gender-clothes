@@ -57,7 +57,7 @@ const ProductTable = ({ categoryId }) => {
             <Th>Giới tính</Th>
             <Th>Chất liệu</Th>
             <Th>Màu</Th>
-            <Th>Pattern</Th>
+            <Th>Chi tiết</Th>
             <Th>Đánh giá</Th>
           </Tr>
         </Thead>

@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Button, Flex, Heading, IconButton, Link, Text } from '@chakra-ui/react';
 import { SiChatbot } from 'react-icons/si';
-import { FaGithub, FaLinkedin } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaUserCircle } from 'react-icons/fa';
 import { BrowserRouter as Router, Route, Routes, Link as RouterLink } from 'react-router-dom';
 import Home from './components/Home';
 import TopRating from './components/TopRating';
@@ -9,15 +9,23 @@ import Statistics from './components/Statistics';
 import DecisionSupport from './components/DecisionSupport';
 import ProductListPage from './components/ProductListPage';
 import Chat from './components/Chat';
-import { useState } from 'react';
 import LoginForm from './components/LoginForm';
 import SignupForm from './components/SignupForm';
 
 function App() {
   const [showChat, setShowChat] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Authentication state
 
   const toggleChat = () => {
     setShowChat(!showChat);
+  };
+
+  const handleLogin = () => {
+    setIsLoggedIn(true); // Simulate logging in
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false); // Simulate logging out
   };
 
   return (
@@ -42,13 +50,20 @@ function App() {
                 <Link as={RouterLink} to="/statistics">Thống kê</Link>
               </Box>
               <Box as="li" mx={2}>
-                <Link as={RouterLink} to="/decision-support">Hỗ trợ quyết định</Link>
-              </Box>
-              <Box as="li" mx={2}>
                 <Link as={RouterLink} to="/product-list">Sản phẩm</Link>
               </Box>
               <Box as="li" mx={2}>
-                <Button as={RouterLink} to="/login" colorScheme="teal">Đăng nhập</Button>
+                {isLoggedIn ? (
+                  <IconButton
+                    aria-label="Profile"
+                    icon={<FaUserCircle />}
+                    variant="ghost"
+                    color="white"
+                    onClick={handleLogout} 
+                  />
+                ) : (
+                  <Button as={RouterLink} to="/login" colorScheme="teal" onClick={handleLogin}>Đăng nhập</Button>
+                )}
               </Box>
             </Flex>
           </Flex>

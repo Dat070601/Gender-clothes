@@ -9,6 +9,7 @@ import {
   Select,
   Text,
   VStack,
+  Input,
 } from '@chakra-ui/react';
 import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
 import { URL } from '../constant';
@@ -20,13 +21,13 @@ const ListProducts = () => {
   const [totalProducts, setTotalProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [searchTerm, setSearchTerm] = useState('');
   const itemsPerPage = 20;
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch(
-          `${URL}/category/getList`, {
+        const response = await fetch(`${URL}/category/getList`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -34,10 +35,12 @@ const ListProducts = () => {
         });
         const data = await response.json();
         console.log('Categories:', data);
-        setCategories(data);
-        if (data.length > 0) {
-          setSelectedCategory(data[0].Category_Id);
-          fetchProducts(data[0].Category_Id, 1);
+        const allCategory = { Category_Id: 'all', Name: 'Tất cả' };
+        const updatedCategories = [allCategory, ...data];
+        setCategories(updatedCategories);
+        if (updatedCategories.length > 0) {
+          setSelectedCategory(updatedCategories[0].Category_Id);
+          fetchProducts(updatedCategories[0].Category_Id, 1);
         }
       } catch (error) {
         console.error('Error fetching categories:', error);
@@ -61,30 +64,67 @@ const ListProducts = () => {
       );
       const data = await response.json();
       setTotalProducts(data);
-      const totalPages = Math.ceil(totalProducts / itemsPerPage)
+      const totalPages = Math.ceil(totalProducts / itemsPerPage);
       setTotalPages(totalPages);
-
     } catch (error) {
       console.error('Error fetching total products:', error);
     }
   };
 
-  const fetchProducts = async (categoryId, page) => {
+  const fetchProducts = async (categoryId, page, searchTerm = '') => {
     try {
-      const response = await fetch(
-        `${URL}/product/getAllByCategory`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            category_id: categoryId,
-            page,
-            limit: itemsPerPage,
-          }),
-        }
-      );
+      let endpoint = `${URL}/product/getAllByCategory`;
+      let body = {
+        category_id: categoryId,
+        page,
+        limit: itemsPerPage,
+      };
+      if (categoryId === 'all') {
+        endpoint = `${URL}/product/getAll`;
+        body = {
+          page,
+          limit: itemsPerPage,
+          search_term: searchTerm,
+        };
+      }
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      });
+      const data = await response.json();
+      console.log('Products:', data);
+      setProducts(data);
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    }
+  };
+
+  const searchProducts = async (categoryId, page, searchTerm = '') => {
+    try {
+      let endpoint = `${URL}/product/getAllByCategory`;
+      let body = {
+        category_id: categoryId,
+        page,
+        limit: itemsPerPage,
+      };
+      if (categoryId === 'all') {
+        endpoint = `${URL}/product/search`;
+        body = {
+          page,
+          limit: itemsPerPage,
+          search_query: searchTerm,
+        };
+      }
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      });
       const data = await response.json();
       console.log('Products:', data);
       setProducts(data);
@@ -96,13 +136,25 @@ const ListProducts = () => {
   const handleCategoryChange = (categoryId) => {
     setSelectedCategory(categoryId);
     setCurrentPage(1);
-    fetchTotalProducts(categoryId);
-    fetchProducts(categoryId, 1);
+    if (categoryId === 'all') {
+      fetchProducts(categoryId, 1, searchTerm);
+    } else {
+      fetchTotalProducts(categoryId);
+      fetchProducts(categoryId, 1);
+    }
   };
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
-    fetchProducts(selectedCategory, newPage);
+    fetchProducts(selectedCategory, newPage, searchTerm);
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleSearchSubmit = () => {
+    searchProducts(selectedCategory, 1, searchTerm);
   };
 
   const renderStars = (rating) => {
@@ -123,12 +175,22 @@ const ListProducts = () => {
     );
   };
 
-  console.log("....", products)
+  console.log("....", products);
 
   return (
     <Box>
       <Flex justifyContent="center" alignItems="center" height="60px">
         <Text fontSize={40} fontWeight={"bold"} color={"teal"}>Sản Phẩm</Text>
+        {selectedCategory === 'all' && (
+          <Input
+            ml={10}
+            placeholder="Tìm kiếm sản phẩm..."
+            value={searchTerm}
+            onChange={handleSearchChange}
+            onKeyPress={(e) => e.key === 'Enter' && handleSearchSubmit()}
+            width="300px"
+          />
+        )}
       </Flex>
       <Flex mx="auto" p={5} ml={10} bgColor={"#EDF2F7"} mr={10}>
         <Box>
@@ -153,7 +215,7 @@ const ListProducts = () => {
               <SimpleGrid columns={[1, 2, 3, 4, 5]} spacing="10px">
                 {products.map((product) => (
                   <Box key={product.Product_ID} borderWidth="1px" borderRadius="lg" overflow="hidden" bg="white">
-                    <Image src={product.Image} alt={product.Name} boxSize="200px" objectFit="cover" />
+                    <Image src={product.Image_Link} alt={product.Name} boxSize="200px" objectFit="cover" />
 
                     <Box p="6">
                       <Box d="flex" alignItems="baseline">

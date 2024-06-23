@@ -71,7 +71,7 @@ const Statistics = () => {
           </Box>
         </Box>
         <Flex direction="column" justifyContent="center" alignItems="center">
-          <Text fontSize={30} fontWeight={"bold"} mb={4}>Gợi ý xu hướng thời trang tiếp theo:</Text>
+          <Text fontSize={30} fontWeight={"bold"} mb={4} color={"teal"}>Gợi ý xu hướng thời trang tiếp theo:</Text>
           <Textarea
             ref={textareaRef}
             placeholder='Here is a sample placeholder'

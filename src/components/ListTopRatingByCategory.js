@@ -137,7 +137,7 @@ const ProductCard = ({ product }) => {
   return (
     <Box borderWidth="1px" borderRadius="lg" overflow="hidden" p="5" width="250px" height="400px">
       <Image 
-        src="https://salt.tikicdn.com/cache/750x750/ts/product/1c/9b/16/cba8a92606d3f41466c89d9f32b6dbe7.jpg.webp"
+        src={product.Image_Link}
         alt={product.Name} 
         boxSize="200px"
         objectFit="cover"

@@ -1,20 +1,45 @@
 import React, { useState } from 'react';
 import { Box, Button, Flex, FormControl, FormLabel, Input, Heading, Text } from '@chakra-ui/react';
-import { Link } from 'react-router-dom';
+import { Link ,useNavigate} from 'react-router-dom';
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  const handleSubmit = (e) => {
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle login logic here
-    console.log('Email:', email);
-    console.log('Password:', password);
+    setError('');
+
+    const requestBody = {
+      email,
+      password
+    };
+
+    try {
+      const response = await fetch('http://localhost:8000/users/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestBody)
+      });
+      const data = await response.json();
+
+      if (data.detail_code === 400) {
+        throw new Error(data['message']);
+      }
+      navigate('/');
+      
+      console.log('Success:', data);
+    } catch (error) {
+      console.error('Error:', error);
+      setError(error.message);
+    }
   };
 
   return (
-    <Flex align="center" justify="center" height="100vh" bg="gray.100">
+    <Flex align="center" justify="center" height="90vh" bg="gray.100">
       <Box bg="white" p={6} rounded="md" shadow="md" width="400px">
         <Heading mb={6} textAlign="center">Đăng nhập</Heading>
         <form onSubmit={handleSubmit}>
@@ -36,12 +61,17 @@ const LoginForm = () => {
               required
             />
           </FormControl>
+          {error && (
+            <Text color="red.500" mb={4}>
+              {error}
+            </Text>
+          )}
           <Button type="submit" colorScheme="teal" width="full" mt={4}>
             Đăng nhập
           </Button>
         </form>
         <Text mt={4} textAlign="center">
-        Chưa có tài khoản? <Link to="/signup" style={{ color: 'teal' }}>Đăng ký</Link>
+          Chưa có tài khoản? <Link to="/signup" style={{ color: 'teal' }}>Đăng ký</Link>
         </Text>
       </Box>
     </Flex>
