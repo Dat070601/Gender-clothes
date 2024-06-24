@@ -95,7 +95,7 @@ const Profile = () => {
 
   return (
     <Box maxW="sm" mx="auto" mt={10} p={5} shadow="md" borderWidth="1px" bg="gray.50" borderRadius="md">
-      <Heading mb={6}>Profile</Heading>
+      <Heading mb={6} color="teal.500">Profile</Heading>
       <form onSubmit={handleSubmit}>
         <FormControl mb={4}>
           <FormLabel>Email</FormLabel>
