@@ -58,8 +58,8 @@ function App() {
                       color="white"
                     />
                     <MenuList>
-                      <MenuItem as={RouterLink} to="/profile">Profile</MenuItem>
-                      <MenuItem onClick={logout}>Logout</MenuItem>
+                      <MenuItem as={RouterLink} textColor={'black'} to="/profile">Profile</MenuItem>
+                      <MenuItem onClick={logout} textColor={'black'}>Logout</MenuItem>
                     </MenuList>
                   </Menu>
                 ) : (

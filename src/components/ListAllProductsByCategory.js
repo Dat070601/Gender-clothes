@@ -179,17 +179,19 @@ const ListProducts = () => {
 
   return (
     <Box>
-      <Flex justifyContent="center" alignItems="center" height="60px">
+      <Flex justifyContent="center" alignItems="center" height="60px" position="relative">
         <Text fontSize={40} fontWeight={"bold"} color={"teal"}>Sản Phẩm</Text>
         {selectedCategory === 'all' && (
-          <Input
-            ml={10}
-            placeholder="Tìm kiếm sản phẩm..."
-            value={searchTerm}
-            onChange={handleSearchChange}
-            onKeyPress={(e) => e.key === 'Enter' && handleSearchSubmit()}
-            width="300px"
-          />
+          <Box position="absolute" right="40px">
+            <Input
+              placeholder="Tìm kiếm sản phẩm..."
+              value={searchTerm}
+              onChange={handleSearchChange}
+              onKeyPress={(e) => e.key === 'Enter' && handleSearchSubmit()}
+              width="300px"
+              ml={10}
+            />
+          </Box>
         )}
       </Flex>
       <Flex mx="auto" p={5} ml={10} bgColor={"#EDF2F7"} mr={10}>
@@ -215,7 +217,9 @@ const ListProducts = () => {
               <SimpleGrid columns={[1, 2, 3, 4, 5]} spacing="10px">
                 {products.map((product) => (
                   <Box key={product.Product_ID} borderWidth="1px" borderRadius="lg" overflow="hidden" bg="white">
-                    <Image src={product.Image_Link} alt={product.Name} boxSize="200px" objectFit="cover" />
+                    <Box display="flex" justifyContent="center" alignItems="center" height="200px">
+                      <Image src={product.Image_Link} alt={product.Name} boxSize="200px" objectFit="cover" />
+                    </Box>
 
                     <Box p="6">
                       <Box d="flex" alignItems="baseline">

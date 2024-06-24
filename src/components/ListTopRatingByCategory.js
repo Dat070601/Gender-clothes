@@ -78,7 +78,7 @@ const SmallMenu = () => {
           ))}
         </Select>
       </Box>
-      <Box flex="1" w="full">
+      <Box w="130%">
         <Carousel>
           {products.map((product) => (
             <VStack key={product.Id} spacing="24px" alignItems={'center'} justifyContent={'center'}>
@@ -151,7 +151,7 @@ const Carousel = ({ children }) => {
   };
 
   return (
-    <Box maxW="1250px" mx="auto" mt="4" className="carousel-container">
+    <Box height="600px" mx="auto" mt="4" className="carousel-container">
       <Slider {...settings}>
         {children}
       </Slider>
@@ -161,13 +161,15 @@ const Carousel = ({ children }) => {
 
 const ProductCard = ({ product }) => {
   return (
-    <Box borderWidth="1px" borderRadius="lg" overflow="hidden" p="5" width="300px" height="500px" m="10px">
-      <Image 
-        src={product.Image_Link}
-        alt={product.Name} 
-        boxSize="200px"
-        objectFit="cover"
-      />      
+    <Box borderWidth="1px" borderRadius="lg" overflow="hidden" p="5" width="300px" height="500px" m="20px">
+      <Flex justifyContent="center" alignItems="center" height="200px">
+        <Image 
+          src={product.Image_Link}
+          alt={product.Name} 
+          boxSize="200px"
+          objectFit="cover"
+        />
+      </Flex>
       <Box p="6">
         <Box d="flex" alignItems="baseline">
           <Badge borderRadius="full" px="2" colorScheme="teal">

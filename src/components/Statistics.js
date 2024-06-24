@@ -10,7 +10,7 @@ const Statistics = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [textareaValue, setTextareaValue] = useState("Tiếp tục tập trung vào các chất liệu như len, denim, linen và cotton.\nMở rộng bảng màu với các gam màu tươi sáng và trung tính.\nĐa dạng hóa thiết kế với các sản phẩm có họa tiết và trơn.\nTiếp tục phát triển các sản phẩm unisex để mở rộng đối tượng khách hàng");
   const textareaRef = useRef(null);
-  const [selectedMonth, setSelectedMonth] = useState(''); 
+  const [selectedMonth, setSelectedMonth] = useState('');
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -25,7 +25,7 @@ const Statistics = () => {
         console.log('Categories:', data);
         setCategories(data);
         if (data.length > 0) {
-          setSelectedCategory(data[0].Category_Id); 
+          setSelectedCategory(data[0].Category_Id);
         }
       } catch (error) {
         console.error('Error fetching categories:', error);
@@ -67,17 +67,16 @@ const Statistics = () => {
           </Select>
         </Flex>
         <Box display="flex" justifyContent="space-between" alignItems="center" gap={10} mb={10}>
-          <div style={{ marginBottom: '10px' }}>
-          <label htmlFor="monthSelect">Chọn tháng:</label>
-          <select id="monthSelect" value={selectedMonth} onChange={handleMonthChange}>
-            <option value="">Chọn tháng</option>
-            <option value="01">Tháng 1</option>
-            <option value="02">Tháng 2</option>
-            <option value="03">Tháng 3</option>
-            {/* Add other months as needed */}
-          </select>
-        </div>
           <Box flex={1}>
+            <div style={{ marginBottom: '10px' }}>
+              <label htmlFor="monthSelect">Chọn tháng:</label>
+              <select id="monthSelect" value={selectedMonth} onChange={handleMonthChange}>
+                <option value="05">Tháng 5</option>
+                <option value="06">Tháng 6</option>
+                <option value="07">Tháng 7</option>
+                {/* Add other months as needed */}
+              </select>
+            </div>
             <ColumnChart categoryId={selectedCategory} />
           </Box>
           <Box flex={1}>
@@ -95,7 +94,7 @@ const Statistics = () => {
             borderColor={"red.500"}
             onChange={(e) => setTextareaValue(e.target.value)}
             sx={{
-              fontWeight: 'bold', 
+              fontWeight: 'bold',
               color: 'black',
               overflow: 'hidden', // Ẩn thanh cuộn
               '::-webkit-scrollbar': {
