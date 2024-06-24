@@ -96,7 +96,7 @@ const SampleNextArrow = (props) => {
   return (
     <Button
       className={className}
-      style={{ ...style, display: "block", background: "black", position: 'absolute', top: '50%', transform: 'translateY(-50%)' }}
+      style={{ ...style, display: "block", background: "black", position: 'absolute', top: '50%', transform: 'translateY(-50%)', right: '-25px' }}
       onClick={onClick}
     />
   );
@@ -107,7 +107,7 @@ const SamplePrevArrow = (props) => {
   return (
     <Button
       className={className}
-      style={{ ...style, display: "block", background: "black", position: 'absolute', top: '50%', transform: 'translateY(-50%)' }}
+      style={{ ...style, display: "block", background: "black", position: 'absolute', top: '50%', transform: 'translateY(-50%)', left: '-25px' }}
       onClick={onClick}
     />
   );
@@ -121,11 +121,37 @@ const Carousel = ({ children }) => {
     slidesToShow: 5,
     slidesToScroll: 5,
     nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />
+    prevArrow: <SamplePrevArrow />,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          infinite: true,
+          dots: true
+        }
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
+      }
+    ]
   };
 
   return (
-    <Box maxW="1250px" mx="auto" mt="4">
+    <Box maxW="1250px" mx="auto" mt="4" className="carousel-container">
       <Slider {...settings}>
         {children}
       </Slider>
@@ -135,7 +161,7 @@ const Carousel = ({ children }) => {
 
 const ProductCard = ({ product }) => {
   return (
-    <Box borderWidth="1px" borderRadius="lg" overflow="hidden" p="5" width="300px" height="500px">
+    <Box borderWidth="1px" borderRadius="lg" overflow="hidden" p="5" width="300px" height="500px" m="10px">
       <Image 
         src={product.Image_Link}
         alt={product.Name} 

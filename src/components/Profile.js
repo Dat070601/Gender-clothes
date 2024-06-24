@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Button, FormControl, FormLabel, Heading, Input, useToast } from '@chakra-ui/react';
-
+import { URL } from '../constant';
 const Profile = () => {
   const [profileData, setProfileData] = useState({
     email: '',
@@ -17,7 +17,7 @@ const Profile = () => {
     // Fetch user profile information from the API
     const fetchProfile = async () => {
       try {
-        const response = await fetch('http://localhost:8000/users/profile', {
+        const response = await fetch(`${URL}/users/profile`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

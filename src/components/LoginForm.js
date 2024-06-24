@@ -2,6 +2,7 @@ import React, { useState ,useContext } from 'react';
 import { Box, Button, Flex, FormControl, FormLabel, Input, Heading, Text } from '@chakra-ui/react';
 import { Link ,useNavigate} from 'react-router-dom';
 import { AuthContext } from '../components/AuthContext';
+import { URL } from '../constant';
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
@@ -21,7 +22,7 @@ const LoginForm = () => {
     };
 
     try {
-      const response = await fetch('http://localhost:8000/users/login', {
+      const response = await fetch(`${URL}/users/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Button, Flex, FormControl, FormLabel, Input, Heading, Text } from '@chakra-ui/react';
 import { Link, useNavigate } from 'react-router-dom';
-
+import { URL } from '../constant';
 const SignupForm = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -32,7 +32,7 @@ const SignupForm = () => {
     };
 
     try {
-      const response = await fetch('http://localhost:8000/users/register', {
+      const response = await fetch(`${URL}/users/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

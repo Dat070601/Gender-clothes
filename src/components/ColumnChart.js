@@ -5,7 +5,7 @@ import { URL } from '../constant';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const ColumnChart = ({ categoryId }) => {
+const ColumnChart = ({ categoryId ,month}) => {
   const [chartData, setChartData] = useState(null);
   const fetchProducts = async (categoryId) => {
     try {
@@ -52,7 +52,7 @@ const ColumnChart = ({ categoryId }) => {
       },
       title: {
         display: true,
-        text: 'Scrollable Bar Chart Example',
+        text: 'Số lượng bán hàng trong tháng',
       },
     },
     scales: {

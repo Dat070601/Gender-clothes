@@ -75,7 +75,6 @@ function App() {
             <Route exact path="/" element={<Home />} />
             <Route path="/top-rating" element={<TopRating />} />
             <Route path="/statistics" element={<PrivateRoute element={<Statistics />} />} />
-            <Route path="/decision-support" element={<DecisionSupport />} />
             <Route path="/product-list" element={<ProductListPage />} />
             <Route path="/login" element={<LoginForm />} />
             <Route path="/signup" element={<SignupForm />} />
