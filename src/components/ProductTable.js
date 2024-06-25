@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Table, Thead, Tbody, Tr, Th, Td, Box } from '@chakra-ui/react';
 import { URL } from '../constant';
 
-const ProductTable = ({ categoryId }) => {
+const ProductTable = ({ categoryId ,month}) => {
   const [features, setFeatures] = useState([]);
 
-  const fetchFeatures = async (categoryId) => {
+  const fetchFeatures = async (categoryId, month) => {
     try {
       const response = await fetch(
         `${URL}/product/getTopFeature`,
@@ -15,7 +15,8 @@ const ProductTable = ({ categoryId }) => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            category_id: categoryId
+            category_id: categoryId,
+            month:month
           }),
         }
       );
@@ -31,9 +32,9 @@ const ProductTable = ({ categoryId }) => {
 
   useEffect(() => {
     if (categoryId) {
-      fetchFeatures(categoryId);
+      fetchFeatures(categoryId, month); // Ensure month is passed to fetchFeatures
     }
-  }, [categoryId]);
+  }, [categoryId, month]); 
 
   const transformData = (data) => {
     const keys = Object.keys(data["Product Type"]);

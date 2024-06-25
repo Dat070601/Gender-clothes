@@ -244,9 +244,11 @@ const ListProducts = () => {
 
                       <Box>
                         {product.Price}
+                        {product.Discount_rate !== "N/A" && (
                         <Box as="span" color="gray.600" fontSize="sm">
-                          / {product.Discount_rate} off
+                          {` - ${product.Discount_rate} off`}
                         </Box>
+                        )}
                       </Box>
 
                       <Box display="flex" mt={2} alignItems="center">

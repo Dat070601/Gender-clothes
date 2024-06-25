@@ -7,14 +7,14 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 const ColumnChart = ({ categoryId ,month}) => {
   const [chartData, setChartData] = useState(null);
-  const fetchProducts = async (categoryId) => {
+  const fetchProducts = async (categoryId,month) => {
     try {
       const response = await fetch(`${URL}/product/getListByCategory`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ category_id: categoryId }),
+        body: JSON.stringify({ category_id: categoryId ,month:month}),
       });
       const data = await response.json();
       console.log('Products:', data);
@@ -39,9 +39,9 @@ const ColumnChart = ({ categoryId ,month}) => {
 
   useEffect(() => {
     if (categoryId) {
-      fetchProducts(categoryId);
+      fetchProducts(categoryId, month); // Ensure month is passed to fetchProducts
     }
-  }, [categoryId]);
+  }, [categoryId, month]);
 
   const options = {
     responsive: true,

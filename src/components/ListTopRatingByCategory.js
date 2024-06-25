@@ -181,9 +181,11 @@ const ProductCard = ({ product }) => {
         </Box>
         <Box>
           {product.Price}
+          {product.Discount_rate !== "N/A" && (
           <Box as="span" color="gray.600" fontSize="sm">
             {` - ${product.Discount_rate} off`}
           </Box>
+          )}
         </Box>
         <Box d="flex" mt="2" alignItems="center">
           <Text as="span" ml="2" color="gray.600" fontSize="sm">

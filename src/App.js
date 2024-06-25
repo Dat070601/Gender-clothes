@@ -6,7 +6,6 @@ import { BrowserRouter as Router, Route, Routes, Link as RouterLink } from 'reac
 import Home from './components/Home';
 import TopRating from './components/TopRating';
 import Statistics from './components/Statistics';
-import DecisionSupport from './components/DecisionSupport';
 import ProductListPage from './components/ProductListPage';
 import Chat from './components/Chat';
 import LoginForm from './components/LoginForm';
@@ -58,8 +57,8 @@ function App() {
                       color="white"
                     />
                     <MenuList>
-                      <MenuItem as={RouterLink} textColor={'black'} to="/profile">Profile</MenuItem>
-                      <MenuItem onClick={logout} textColor={'black'}>Logout</MenuItem>
+                      <MenuItem as={RouterLink} textColor={'black'} to="/profile">Hồ sơ</MenuItem>
+                      <MenuItem onClick={logout} textColor={'black'}>Đăng xuất</MenuItem>
                     </MenuList>
                   </Menu>
                 ) : (

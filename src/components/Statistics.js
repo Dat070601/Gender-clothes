@@ -3,12 +3,12 @@ import ColumnChart from './ColumnChart';
 import ProductTable from './ProductTable';
 import React, { useEffect, useState, useRef } from 'react';
 import { URL } from '../constant';
-import { CalendarIcon, StarIcon } from '@chakra-ui/icons';
+import { CalendarIcon} from '@chakra-ui/icons';
 
 const Statistics = () => {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
-  const [textareaValue, setTextareaValue] = useState("Tiếp tục tập trung vào các chất liệu như len, denim, linen và cotton.\nMở rộng bảng màu với các gam màu tươi sáng và trung tính.\nĐa dạng hóa thiết kế với các sản phẩm có họa tiết và trơn.\nTiếp tục phát triển các sản phẩm unisex để mở rộng đối tượng khách hàng");
+  const [textareaValue, setTextareaValue] = useState("");
   const textareaRef = useRef(null);
   const [selectedMonth, setSelectedMonth] = useState('');
 
@@ -35,8 +35,32 @@ const Statistics = () => {
     fetchCategories();
   }, []);
 
+  useEffect(() => {
+    const fetchDecisions = async () => {
+      if (!selectedCategory) return;
+      try {
+        const response = await fetch(`${URL}/decision/support`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            category_id: selectedCategory
+          }),
+        });
+        const data = await response.json();
+        setTextareaValue(data.Decision);
+      } catch (error) {
+        console.error('Error fetching decisions:', error);
+      }
+    };
+
+    fetchDecisions();
+  }, [selectedCategory]);
+
   const handleCategoryChange = (event) => {
     setSelectedCategory(event.target.value);
+    setTextareaValue(''); // Clear textarea while fetching new data
   };
 
   useEffect(() => {
@@ -47,7 +71,7 @@ const Statistics = () => {
   }, [textareaValue]);
 
   const handleMonthChange = (e) => {
-    setSelectedMonth(e.target.value); // Update selectedMonth state when month selection changes
+    setSelectedMonth(e.target.value);
   };
 
   return (
@@ -72,15 +96,13 @@ const Statistics = () => {
               <label htmlFor="monthSelect">Chọn tháng:</label>
               <select id="monthSelect" value={selectedMonth} onChange={handleMonthChange}>
                 <option value="05">Tháng 5</option>
-                <option value="06">Tháng 6</option>
-                <option value="07">Tháng 7</option>
-                {/* Add other months as needed */}
+                <option value="04">Tháng 4</option>
               </select>
             </div>
-            <ColumnChart categoryId={selectedCategory} />
+            <ColumnChart categoryId={selectedCategory} month={selectedMonth}/>
           </Box>
           <Box flex={1}>
-            <ProductTable categoryId={selectedCategory} />
+            <ProductTable categoryId={selectedCategory} month={selectedMonth}/>
           </Box>
         </Box>
         <Flex direction="column" justifyContent="center" alignItems="center">
@@ -96,9 +118,9 @@ const Statistics = () => {
             sx={{
               fontWeight: 'bold',
               color: 'black',
-              overflow: 'hidden', // Ẩn thanh cuộn
+              overflow: 'hidden', 
               '::-webkit-scrollbar': {
-                display: 'none', // Ẩn thanh cuộn cho trình duyệt Webkit (Chrome, Safari)
+                display: 'none', 
               },
             }}
             maxW={"50%"}
