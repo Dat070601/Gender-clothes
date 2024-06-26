@@ -77,55 +77,59 @@ function App() {
             <Route path="/product-list" element={<ProductListPage />} />
             <Route path="/login" element={<LoginForm />} />
             <Route path="/signup" element={<SignupForm />} />
-            <Route path="/profile" element={<PrivateRoute element={<Profile/>} />} />
+            <Route path="/profile" element={<PrivateRoute element={<Profile />} />} />
           </Routes>
         </Box>
 
-        {/* Chat Plugin */}
-        <Box
-          position="fixed"
-          bottom="20px"
-          right="20px"
-          display={showChat ? 'block' : 'none'}
-          boxShadow="0 2px 5px rgba(0, 0, 0, 0.2)"
-          zIndex="1000"
-        >
-          <Box
-            bg="gray.400"
-            color="black"
-            p={4}
-            borderRadius="md"
-          >
-            <Flex justify="space-between" align="center">
-              <Heading size="sm" color="black">Chatbot</Heading>
-              <IconButton 
-                aria-label="Close"
-                icon={<SiChatbot />}
+        {isLoggedIn && (
+          <>
+            {/* Chat Plugin */}
+            <Box
+              position="fixed"
+              bottom="20px"
+              right="20px"
+              display={showChat ? 'block' : 'none'}
+              boxShadow="0 2px 5px rgba(0, 0, 0, 0.2)"
+              zIndex="1000"
+            >
+              <Box
+                bg="gray.400"
                 color="black"
-                variant="ghost"
+                p={4}
+                borderRadius="md"
+              >
+                <Flex justify="space-between" align="center">
+                  <Heading size="sm" color="black">Chatbot</Heading>
+                  <IconButton
+                    aria-label="Close"
+                    icon={<SiChatbot />}
+                    color="black"
+                    variant="ghost"
+                    onClick={toggleChat}
+                  />
+                </Flex>
+                <Flex mt={2}>
+                  <Chat />
+                </Flex>
+              </Box>
+            </Box>
+
+            {/* Chat Plugin Button */}
+            <Box
+              position="fixed"
+              bottom="20px"
+              right="20px"
+              zIndex="1000"
+            >
+              <IconButton
+                aria-label="Open chat"
+                icon={<SiChatbot />}
+                colorScheme="teal"
                 onClick={toggleChat}
               />
-            </Flex>
-            <Flex mt={2}>
-              <Chat /> 
-            </Flex>
-          </Box>
-        </Box>
-
-        {/* Chat Plugin Button */}
-        <Box
-          position="fixed"
-          bottom="20px"
-          right="20px"
-          zIndex="1000"
-        >
-          <IconButton
-            aria-label="Open chat"
-            icon={<SiChatbot />}
-            colorScheme="teal"
-            onClick={toggleChat}
-          />
-        </Box>
+            </Box>
+          </>
+        )}
 
         <Box as="footer" bg="gray.800" color="white" py={0} position="fixed" bottom={0} w={"100%"}>
           <Box maxW="container.xl" mx="auto" textAlign="center">
